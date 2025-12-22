@@ -8,6 +8,8 @@
 
 #ifdef _MSC_VER
 # include "configall_system_msc.h"
+#elif defined(__APPLE__) && defined(__MACH__)
+# include "configall_system_aaplxcode.h"
 #else
 # error "Trying to use configall_system for unknown compiler."
 #endif
