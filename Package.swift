@@ -30,9 +30,24 @@ let package = Package(
     
     // MARK: - Dependencies
     // -----------------------------------------------------------------
-    // 3. Depependent on others - none at the moment
+    // 3. Depependent on CoinUtils
     // -----------------------------------------------------------------
-    dependencies: [],
+    dependencies: [
+        .package(
+            //path: //"../CoinUtilsXCExperimental", // relative path to BasicMath directory
+            
+            // 1️⃣ The HTTPS URL of the repo that hosts BasicMath
+            url: "https://github.com/theogscott/CoinUtils/tree/SPM",
+            
+            // 2️⃣ The version rule – legacy
+            //   .exact("7e609e2a6df8ffc0e89c9dbdd38c582eada3386a")         // exactly this tag/commit
+            //   .upToNextMajor(from: "1.0.0")
+            //   .upToNextMinor(from: "1.2.0")
+            //.branch("SPM"),           // for a rolling dev branch
+            //.revision("7e609e2a6df8ffc0e89c9dbdd38c582eada3386a")      // a specific commit SHA
+            from: "1.0.0"
+        )
+    ],
     
     // MARK: – Targets (the actual code and test suite)
     // --------------------------------------------------------------------
@@ -47,7 +62,7 @@ let package = Package(
         // ------------------------------------------------------------
         .target(
             name: "Clp",  // internal name – can be anything
-            dependencies: [],         // No external modules
+            dependencies: ["CoinUtils"],         // No external modules
             path: "src",
             sources: ["CbcOrClpParam.cpp",
                       "Clp_ampl.cpp",
@@ -118,7 +133,11 @@ let package = Package(
             
             // ---- C++‑specific settings --------------------------------------------------------
             cxxSettings: [
-                .define("CLPLIB_BUILD", to: "1"),
+                // Use the C++20 (or C++23) dialect – change if you need a different version.
+                //.cxxStandard("c++20"), // keep whatever the user has chosen to installed
+                
+                //.define("CLPLIB_BUILD", to: "1"), // not sure ?
+                .define("CLP_BUILD", to: "1"),
                 .headerSearchPath(".")
             ]
         )
