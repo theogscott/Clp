@@ -34,18 +34,8 @@ let package = Package(
     // -----------------------------------------------------------------
     dependencies: [
         .package(
-            //path: //"../CoinUtilsXCExperimental", // relative path to BasicMath directory
-            
-            // 1️⃣ The HTTPS URL of the repo that hosts BasicMath
-            url: "https://github.com/theogscott/CoinUtils/tree/SPM",
-            
-            // 2️⃣ The version rule – legacy
-            //   .exact("7e609e2a6df8ffc0e89c9dbdd38c582eada3386a")         // exactly this tag/commit
-            //   .upToNextMajor(from: "1.0.0")
-            //   .upToNextMinor(from: "1.2.0")
-            //.branch("SPM"),           // for a rolling dev branch
-            //.revision("7e609e2a6df8ffc0e89c9dbdd38c582eada3386a")      // a specific commit SHA
-            from: "1.0.0"
+            url: "https://github.com/theogscott/CoinUtils",
+            branch: "SPM"           // for a rolling dev branch
         )
     ],
     
@@ -62,10 +52,10 @@ let package = Package(
         // ------------------------------------------------------------
         .target(
             name: "Clp",  // internal name – can be anything
-            dependencies: ["CoinUtils"],         // No external modules
+            dependencies: ["CoinUtils"],         // Depends on CoinUtils
             path: "src",
             sources: ["CbcOrClpParam.cpp",
-                      "Clp_ampl.cpp",
+                    //  "Clp_ampl.cpp",
                       "Clp_C_Interface.cpp",
                       "ClpCholeskyBase.cpp",
                       "ClpCholeskyDense.cpp",
