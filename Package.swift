@@ -34,9 +34,12 @@ let package = Package(
     // -----------------------------------------------------------------
     dependencies: [
         .package(
-            url: "https://github.com/theogscott/CoinUtils",
-            branch: "SPM"           // for a rolling dev branch
-        )
+            
+//            url: "https://github.com/theogscott/CoinUtils",
+//            branch: "SPM"           // for a rolling dev branch
+            path: "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/CoinUtils"
+        ),
+        .package(path: "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/Osi")
     ],
     
     // MARK: – Targets (the actual code and test suite)
@@ -52,10 +55,10 @@ let package = Package(
         // ------------------------------------------------------------
         .target(
             name: "Clp",  // internal name – can be anything
-            dependencies: ["CoinUtils"],         // Depends on CoinUtils
+            dependencies: ["CoinUtils", "Osi"],         // Depends on CoinUtils
             path: "src",
             sources: ["CbcOrClpParam.cpp",
-                    //  "Clp_ampl.cpp",
+                      "Clp_ampl.cpp",
                       "Clp_C_Interface.cpp",
                       "ClpCholeskyBase.cpp",
                       "ClpCholeskyDense.cpp",
@@ -113,7 +116,7 @@ let package = Package(
                       "IdiSolve.cpp",
                       "MyEventHandler.cpp",
                       "MyMessageHandler.cpp",
-                      //"unitTest.cpp"
+                      "unitTest.cpp",
             ],
             
             // ---- Public headers --------------------------------------------------------------
@@ -127,7 +130,8 @@ let package = Package(
                 //.cxxStandard("c++20"), // keep whatever the user has chosen to installed
                 
                 //.define("CLPLIB_BUILD", to: "1"), // not sure ?
-                .define("CLP_BUILD", to: "1"),
+                //.define("CLP_BUILD", to: "1"),
+                .define("CLPLIB_BUILD", to: "1"),
                 .headerSearchPath(".")
             ]
         )
