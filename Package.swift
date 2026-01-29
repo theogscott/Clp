@@ -22,9 +22,9 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Clp",
+            name: "libClp",
             type: .static, // static because of sandboxing.
-            targets: ["Clp"]
+            targets: ["libClp"]
         ),
     ],
     
@@ -39,7 +39,7 @@ let package = Package(
 //            branch: "SPM"           // for a rolling dev branch
             path: "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/CoinUtils"
         ),
-        .package(path: "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/Osi")
+        //.package(path: "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/Osi")
     ],
     
     // MARK: – Targets (the actual code and test suite)
@@ -54,16 +54,114 @@ let package = Package(
         // 4a C++ target (only .cpp/.hpp files)
         // ------------------------------------------------------------
         .target(
-            name: "Clp",  // internal name – can be anything
-            dependencies: ["CoinUtils", "Osi"],         // Depends on CoinUtils
+            name: "libClp",  // internal name – can be anything
+            dependencies: [.product(name: "libCoinUtils", package: "CoinUtils")],         // Depends on CoinUtils
             path: "src",
+            
+            // We list all files, ands thosse headers thty must part of the library, are commented  out.
+            exclude: [ "CbcOrClpParam.hpp",// will be included in the build
+                       //"AbcCommon.hpp", // will not be part of the build.
+//                      "AbcDualRowDantzig.hpp",
+//                      "AbcDualRowPivot.hpp",
+//                      "AbcDualRowSteepest.hpp",
+//                      "AbcMatrix.hpp",
+//                      "AbcNonLinearCost.hpp",
+//                      "AbcPrimalColumnDantzig.hpp",
+//                      "AbcPrimalColumnPivot.hpp",
+//                      "AbcPrimalColumnSteepest.hpp",
+//                      "AbcSimplex.hpp",
+//                      "AbcSimplexDual.hpp",
+//                      "AbcSimplexFactorization.hpp",
+//                      "AbcSimplexPrimal.hpp",
+//                      "AbcWarmStart.hpp",
+                      //"Clp_C_Interface.h
+                      "ClpCholeskyBase.hpp",
+                      "ClpCholeskyDense.hpp",
+                      //"ClpCholeskyMumps.hpp",
+                      //"ClpCholeskyPardiso.hpp",
+                      //"ClpCholeskyTaucs.hpp",
+                      //"ClpCholeskyUfl.hpp",
+                      //"ClpCholeskyWssmp.hpp",
+                      //"ClpCholeskyWssmpKKT.hpp",
+                      //"ClpConfig.h”,
+                      "ClpConstraint.hpp",
+                      "ClpConstraintLinear.hpp",
+                      "ClpConstraintQuadratic.hpp",
+                      "ClpDualRowDantzig.hpp",
+                      "ClpDualRowPivot.hpp",
+                      "ClpDualRowSteepest.hpp",
+                      "ClpDummyMatrix.hpp",
+                      "ClpDynamicExampleMatrix.hpp",
+                      "ClpDynamicMatrix.hpp",
+                      "ClpEventHandler.hpp",
+                      "ClpFactorization.hpp",
+                      "ClpGubDynamicMatrix.hpp",
+                      "ClpGubMatrix.hpp",
+                      "ClpHelperFunctions.hpp",
+                      "ClpInterior.hpp",
+                      "ClpLinearObjective.hpp",
+                      "ClpLsqr.hpp",
+                      "ClpMatrixBase.hpp",
+                      "ClpMessage.hpp",
+                      "ClpModel.hpp",
+                      "ClpModelParameters.hpp",
+                      "ClpNetworkBasis.hpp",
+                      "ClpNetworkMatrix.hpp",
+                      "ClpNode.hpp",
+                      "ClpNonLinearCost.hpp",
+                      "ClpObjective.hpp",
+                      "ClpPackedMatrix.hpp",
+                      "ClpParam.hpp",
+                      "ClpParameters.hpp",
+                      "ClpParamUtils.hpp",
+                      "ClpPdco.hpp",
+                      "ClpPdcoBase.hpp",
+                      "ClpPEDualRowDantzig.hpp",
+                      "ClpPEDualRowSteepest.hpp",
+                      "ClpPEPrimalColumnDantzig.hpp",
+                      "ClpPEPrimalColumnSteepest.hpp",
+                      "ClpPESimplex.hpp",
+                      "ClpPlusMinusOneMatrix.hpp",
+                      "ClpPredictorCorrector.hpp",
+                      "ClpPresolve.hpp",
+                      "ClpPrimalColumnDantzig.hpp",
+                      "ClpPrimalColumnPivot.hpp",
+                      "ClpPrimalColumnSteepest.hpp",
+                      "ClpPrimalQuadraticDantzig.hpp",
+                      "ClpQuadraticObjective.hpp",
+                      "ClpSimplex.hpp",
+                      "ClpSimplexDual.hpp",
+                      "ClpSimplexNonlinear.hpp",
+                      "ClpSimplexOther.hpp",
+                      "ClpSimplexPrimal.hpp",
+                      "ClpSolve.hpp",
+                      "ClpSolver.hpp",
+//                      "CoinAbcBaseFactorization.hpp",
+//                      "CoinAbcCommon.hpp",
+//                      "CoinAbcCommonFactorization.hpp",
+//                      "CoinAbcDenseFactorization.hpp",
+//                      "CoinAbcFactorization.hpp",
+//                      "CoinAbcHelperFunctions.hpp",
+//                      "CoinTypes.hpp",
+//                      "config_clp_default.h”,
+//                      "config_clp.h.in”,
+//                      "config.h.in”,
+//                      "configall_system_aaplxcode.h”,
+//                      "configall_system_msc.h”,
+//                      "configall_system.h”,
+                      "Idiot.hpp"
+//                      "MyEventHandler.hpp",
+//                      "MyMessageHandler.hpp"
+                    ],
             sources: ["CbcOrClpParam.cpp",
-                      "Clp_ampl.cpp",
+                      //"ClpMain.cpp",
+                      "ClpParam.cpp",
+                      "ClpParameters.cpp",
+                      "ClpParamUtils.cpp",
+                      "ClpSolver.cpp",
                       "Clp_C_Interface.cpp",
                       "ClpCholeskyBase.cpp",
                       "ClpCholeskyDense.cpp",
-                      "ClpCholeskyPardiso.cpp",
-                      "ClpCholeskyTaucs.cpp",
                       "ClpConstraint.cpp",
                       "ClpConstraintLinear.cpp",
                       "ClpConstraintQuadratic.cpp",
@@ -92,11 +190,6 @@ let package = Package(
                       "ClpPackedMatrix.cpp",
                       "ClpPdco.cpp",
                       "ClpPdcoBase.cpp",
-                      "ClpPEDualRowDantzig.cpp",
-                      "ClpPEDualRowSteepest.cpp",
-                      "ClpPEPrimalColumnDantzig.cpp",
-                      "ClpPEPrimalColumnSteepest.cpp",
-                      "ClpPESimplex.cpp",
                       "ClpPlusMinusOneMatrix.cpp",
                       "ClpPredictorCorrector.cpp",
                       "ClpPresolve.cpp",
@@ -110,13 +203,13 @@ let package = Package(
                       "ClpSimplexOther.cpp",
                       "ClpSimplexPrimal.cpp",
                       "ClpSolve.cpp",
-                      "ClpSolver.cpp",
-                      //Dummy.cpp
                       "Idiot.cpp",
                       "IdiSolve.cpp",
-                      "MyEventHandler.cpp",
-                      "MyMessageHandler.cpp",
-                      "unitTest.cpp",
+                      "ClpPESimplex.cpp",
+                      "ClpPEPrimalColumnDantzig.cpp",
+                      "ClpPEPrimalColumnSteepest.cpp",
+                      "ClpPEDualRowDantzig.cpp",
+                      "ClpPEDualRowSteepest.cpp"
             ],
             
             // ---- Public headers --------------------------------------------------------------
@@ -132,6 +225,7 @@ let package = Package(
                 //.define("CLPLIB_BUILD", to: "1"), // not sure ?
                 //.define("CLP_BUILD", to: "1"),
                 .define("CLPLIB_BUILD", to: "1"),
+                .define("_LIB", to: "1"),
                 .headerSearchPath(".")
             ]
         )
