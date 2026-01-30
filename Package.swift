@@ -34,12 +34,9 @@ let package = Package(
     // -----------------------------------------------------------------
     dependencies: [
         .package(
-            
-//            url: "https://github.com/theogscott/CoinUtils",
-//            branch: "SPM"           // for a rolling dev branch
-            path: "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/CoinUtils"
+            url: "https://github.com/theogscott/CoinUtils",
+            branch: "SPM"           // for a rolling dev branch
         ),
-        //.package(path: "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/Osi")
     ],
     
     // MARK: – Targets (the actual code and test suite)
