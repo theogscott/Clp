@@ -1,0 +1,15 @@
+{
+  "originHash" : "062c4fd7959b8eea1ff1e318af0be7f8ca5ac0c69d0562b8c5f1b0ac0449984a",
+  "pins" : [
+    {
+      "identity" : "coinutils",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/CoinUtils",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "0ad234b9079d261670f9e09fd5d9f40b299f577f"
+      }
+    }
+  ],
+  "version" : 3
+}
