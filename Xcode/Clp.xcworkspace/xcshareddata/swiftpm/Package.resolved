@@ -1,0 +1,24 @@
+{
+  "originHash" : "ac82f76ed6d597d98094eb0ad92528d1537a7a9e4fc8657bf9830a0b437b23a5",
+  "pins" : [
+    {
+      "identity" : "clp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/Clp",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "9160aafbf82ad4b00226859e0506298075616a3c"
+      }
+    },
+    {
+      "identity" : "coinutils",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/CoinUtils",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "0ad234b9079d261670f9e09fd5d9f40b299f577f"
+      }
+    }
+  ],
+  "version" : 3
+}
