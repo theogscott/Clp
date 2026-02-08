@@ -66,7 +66,7 @@ let package = Package(
             path: "src",
             
             // We list all files, ands thosse headers thty must part of the library, are commented  out.
-            exclude: [ "OsClp",
+            exclude: [ "OsiClp",
                        "Attic",
                        "Missing",
                        "CbcOrClpParam.hpp",// will be included in the build
@@ -261,6 +261,18 @@ let package = Package(
                 .define("_LIB", to: "1"),
                 
                 // Tell the compiler where to find your headers from path sources
+                .headerSearchPath(".")
+            ]
+        ),
+        .testTarget(
+            name: "osiUnitTest",
+            dependencies: ["libClp", "libOsiClp",
+                .product(name: "libCoinUtils", package: "CoinUtils"),
+                .product(name: "libOsi", package: "Osi"),
+                .product(name: "libOsiCommonTest", package: "Osi")
+            ],
+            path: "test",
+            cxxSettings: [
                 .headerSearchPath(".")
             ]
         )
