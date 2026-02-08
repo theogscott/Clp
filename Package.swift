@@ -26,6 +26,11 @@ let package = Package(
             type: .static, // static because of sandboxing.
             targets: ["libClp"]
         ),
+        .library(
+            name: "libOsiClp",
+            type: .static,
+            targets: ["libOsiClp"]
+        )
     ],
     
     // MARK: - Dependencies
@@ -37,6 +42,11 @@ let package = Package(
             url: "https://github.com/theogscott/CoinUtils",
             branch: "SPM"           // for a rolling dev branch
         ),
+        .package(
+            url: "https://github.com/theogscott/Osi",
+            branch: "SPM"           // for a rolling dev branch
+        )
+            
     ],
     
     // MARK: – Targets (the actual code and test suite)
@@ -56,7 +66,10 @@ let package = Package(
             path: "src",
             
             // We list all files, ands thosse headers thty must part of the library, are commented  out.
-            exclude: [ "CbcOrClpParam.hpp",// will be included in the build
+            exclude: [ "OsClp",
+                       "Attic",
+                       "Missing",
+                       "CbcOrClpParam.hpp",// will be included in the build
                        //"AbcCommon.hpp", // will not be part of the build.
 //                      "AbcDualRowDantzig.hpp",
 //                      "AbcDualRowPivot.hpp",
@@ -223,6 +236,31 @@ let package = Package(
                 //.define("CLP_BUILD", to: "1"),
                 .define("CLPLIB_BUILD", to: "1"),
                 .define("_LIB", to: "1"),
+                .headerSearchPath(".")
+            ]
+        ),
+        .target(
+            name: "libOsiClp",  // internal name – can be anything
+            dependencies: ["libClp",
+                           .product(name: "libCoinUtils", package: "CoinUtils"),
+                           .product(name: "libOsi", package: "Osi")
+                          ],
+            path: "src/OsiClp",    // The folder containing the C++ source files
+
+            // ---- Public headers --------------------------------------------------------------
+            // Anything under `publicHeadersPath` becomes visible to *other* packages.
+            // It also tells SPM where to look for the headers when it builds a Clang module.
+            publicHeadersPath: ".",          // Anything inside src that ends with .h/.hpp becomes a public Clang module
+            
+            // ---- C++‑specific settings --------------------------------------------------------
+            cxxSettings: [
+                // Use the C++20 (or C++23) dialect – change if you need a different version.
+                //.cxxStandard("c++20"), // use user default, aka Xcode version
+                
+                .define("OSICLPLIB_BUILD", to: "1"),
+                .define("_LIB", to: "1"),
+                
+                // Tell the compiler where to find your headers from path sources
                 .headerSearchPath(".")
             ]
         )
