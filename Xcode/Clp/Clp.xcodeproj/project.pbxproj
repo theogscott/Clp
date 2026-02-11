@@ -11,12 +11,19 @@
 		9B270EB12F2CF2AA00F814E3 /* libClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9B270EB02F2CF2AA00F814E3 /* libClp */; };
 		9B2710DF2F2D1E0A00F814E3 /* minimum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2710CB2F2D1DFE00F814E3 /* minimum.cpp */; };
 		9B2710E12F2D1F5B00F814E3 /* testBarrier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2710D82F2D1DFE00F814E3 /* testBarrier.cpp */; };
-		9B2710F32F2D248100F814E3 /* testQP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9B2710DC2F2D1DFE00F814E3 /* testQP.cpp */; };
 		9BC0824D2F38E23900E7B710 /* libClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9BC0824C2F38E23900E7B710 /* libClp */; };
-		9BC0824F2F38E23F00E7B710 /* libClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9BC0824E2F38E23F00E7B710 /* libClp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		9B25EC562F3B2746002EB813 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		9B270EA12F2CF15D00F814E3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,18 +42,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		9B2710EA2F2D247100F814E3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9B25EC582F3B2746002EB813 /* osiUnitTestMain */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osiUnitTestMain; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B270EA32F2CF15D00F814E3 /* ClpExamplesMinimum */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ClpExamplesMinimum; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B2710062F2D0CD700F814E3 /* ClpExamplesTestBarrier */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ClpExamplesTestBarrier; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B2710B22F2D1DFE00F814E3 /* addBits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = addBits.cpp; sourceTree = "<group>"; };
@@ -93,12 +92,29 @@
 		9B2710DB2F2D1DFE00F814E3 /* testGub2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = testGub2.cpp; sourceTree = "<group>"; };
 		9B2710DC2F2D1DFE00F814E3 /* testQP.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = testQP.cpp; sourceTree = "<group>"; };
 		9B2710DD2F2D1DFE00F814E3 /* useVolume.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = useVolume.cpp; sourceTree = "<group>"; };
-		9B2710EC2F2D247100F814E3 /* ClpExamplesTestQP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ClpExamplesTestQP; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9BE8CC922F39011100EF58B3 /* Exceptions for "ClpExamplesMinimum" folder in "ClpExamplesTestBarrier" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				mainTest.cpp,
+			);
+			target = 9B2710052F2D0CD700F814E3 /* ClpExamplesTestBarrier */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		9B25EC592F3B2746002EB813 /* osiUnitTestMain */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = osiUnitTestMain;
+			sourceTree = "<group>";
+		};
 		9B270EA52F2CF15D00F814E3 /* ClpExamplesMinimum */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9BE8CC922F39011100EF58B3 /* Exceptions for "ClpExamplesMinimum" folder in "ClpExamplesTestBarrier" target */,
+			);
 			path = ClpExamplesMinimum;
 			sourceTree = "<group>";
 		};
@@ -115,6 +131,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9B25EC552F3B2746002EB813 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9B270EA02F2CF15D00F814E3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,14 +155,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9B2710E92F2D247100F814E3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9BC0824F2F38E23F00E7B710 /* libClp in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -150,6 +165,7 @@
 				9B270EA52F2CF15D00F814E3 /* ClpExamplesMinimum */,
 				9B2710072F2D0CD700F814E3 /* ClpExamplesTestBarrier */,
 				9B2710ED2F2D247100F814E3 /* ClpExamplesTestQP */,
+				9B25EC592F3B2746002EB813 /* osiUnitTestMain */,
 				9B2710E22F2D20E000F814E3 /* Frameworks */,
 				9B270EA42F2CF15D00F814E3 /* Products */,
 			);
@@ -160,7 +176,7 @@
 			children = (
 				9B270EA32F2CF15D00F814E3 /* ClpExamplesMinimum */,
 				9B2710062F2D0CD700F814E3 /* ClpExamplesTestBarrier */,
-				9B2710EC2F2D247100F814E3 /* ClpExamplesTestQP */,
+				9B25EC582F3B2746002EB813 /* osiUnitTestMain */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -227,6 +243,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9B25EC572F3B2746002EB813 /* osiUnitTestMain */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B25EC5E2F3B2746002EB813 /* Build configuration list for PBXNativeTarget "osiUnitTestMain" */;
+			buildPhases = (
+				9B25EC542F3B2746002EB813 /* Sources */,
+				9B25EC552F3B2746002EB813 /* Frameworks */,
+				9B25EC562F3B2746002EB813 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9B25EC592F3B2746002EB813 /* osiUnitTestMain */,
+			);
+			name = osiUnitTestMain;
+			packageProductDependencies = (
+			);
+			productName = osiUnitTestMain;
+			productReference = 9B25EC582F3B2746002EB813 /* osiUnitTestMain */;
+			productType = "com.apple.product-type.tool";
+		};
 		9B270EA22F2CF15D00F814E3 /* ClpExamplesMinimum */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B270EAA2F2CF15D00F814E3 /* Build configuration list for PBXNativeTarget "ClpExamplesMinimum" */;
@@ -274,29 +312,6 @@
 			productReference = 9B2710062F2D0CD700F814E3 /* ClpExamplesTestBarrier */;
 			productType = "com.apple.product-type.tool";
 		};
-		9B2710EB2F2D247100F814E3 /* ClpExamplesTestQP */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9B2710F02F2D247100F814E3 /* Build configuration list for PBXNativeTarget "ClpExamplesTestQP" */;
-			buildPhases = (
-				9B2710E82F2D247100F814E3 /* Sources */,
-				9B2710E92F2D247100F814E3 /* Frameworks */,
-				9B2710EA2F2D247100F814E3 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				9B2710ED2F2D247100F814E3 /* ClpExamplesTestQP */,
-			);
-			name = ClpExamplesTestQP;
-			packageProductDependencies = (
-				9BC0824E2F38E23F00E7B710 /* libClp */,
-			);
-			productName = ClpExamplesTestQP;
-			productReference = 9B2710EC2F2D247100F814E3 /* ClpExamplesTestQP */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -306,13 +321,13 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
+					9B25EC572F3B2746002EB813 = {
+						CreatedOnToolsVersion = 26.3;
+					};
 					9B270EA22F2CF15D00F814E3 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 					9B2710052F2D0CD700F814E3 = {
-						CreatedOnToolsVersion = 26.2;
-					};
-					9B2710EB2F2D247100F814E3 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -336,12 +351,19 @@
 			targets = (
 				9B270EA22F2CF15D00F814E3 /* ClpExamplesMinimum */,
 				9B2710052F2D0CD700F814E3 /* ClpExamplesTestBarrier */,
-				9B2710EB2F2D247100F814E3 /* ClpExamplesTestQP */,
+				9B25EC572F3B2746002EB813 /* osiUnitTestMain */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9B25EC542F3B2746002EB813 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9B270E9F2F2CF15D00F814E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -358,17 +380,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9B2710E82F2D247100F814E3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9B2710F32F2D248100F814E3 /* testQP.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		9B25EC5C2F3B2746002EB813 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9B25EC5D2F3B2746002EB813 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		9B270EA82F2CF15D00F814E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -516,25 +546,18 @@
 			};
 			name = Release;
 		};
-		9B2710F12F2D247100F814E3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		9B2710F22F2D247100F814E3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9B25EC5E2F3B2746002EB813 /* Build configuration list for PBXNativeTarget "osiUnitTestMain" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B25EC5C2F3B2746002EB813 /* Debug */,
+				9B25EC5D2F3B2746002EB813 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9B270E9E2F2CF15D00F814E3 /* Build configuration list for PBXProject "Clp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -558,15 +581,6 @@
 			buildConfigurations = (
 				9B27100B2F2D0CD700F814E3 /* Debug */,
 				9B27100C2F2D0CD700F814E3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9B2710F02F2D247100F814E3 /* Build configuration list for PBXNativeTarget "ClpExamplesTestQP" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9B2710F12F2D247100F814E3 /* Debug */,
-				9B2710F22F2D247100F814E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -595,11 +609,6 @@
 			productName = libClp;
 		};
 		9BC0824C2F38E23900E7B710 /* libClp */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9B0EFEAF2F2E848B00D84715 /* XCRemoteSwiftPackageReference "Clp" */;
-			productName = libClp;
-		};
-		9BC0824E2F38E23F00E7B710 /* libClp */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9B0EFEAF2F2E848B00D84715 /* XCRemoteSwiftPackageReference "Clp" */;
 			productName = libClp;

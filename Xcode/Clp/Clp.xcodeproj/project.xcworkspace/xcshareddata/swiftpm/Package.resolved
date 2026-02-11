@@ -7,7 +7,7 @@
       "location" : "https://github.com/theogscott/Clp",
       "state" : {
         "branch" : "SPM",
-        "revision" : "6f93b6fc95e8e98adb350191288ad2375df3286f"
+        "revision" : "79080d444a668c2ade633b9a25266d62391c3c19"
       }
     },
     {
@@ -17,6 +17,15 @@
       "state" : {
         "branch" : "SPM",
         "revision" : "0ad234b9079d261670f9e09fd5d9f40b299f577f"
+      }
+    },
+    {
+      "identity" : "osi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/Osi",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "09e567c10eaa1e4cb8e30e29e49af8d22b75d931"
       }
     }
   ],

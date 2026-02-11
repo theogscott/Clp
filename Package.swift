@@ -30,6 +30,10 @@ let package = Package(
             name: "libOsiClp",
             type: .static,
             targets: ["libOsiClp"]
+        ),
+        .executable (
+            name: "osiUnitTest",
+            targets: ["osiUnitTest"]
         )
     ],
     
@@ -264,17 +268,21 @@ let package = Package(
                 .headerSearchPath(".")
             ]
         ),
-        .testTarget(
+        .executableTarget( // The executable that *runs* tests (like a CLI test harness)
             name: "osiUnitTest",
             dependencies: ["libClp", "libOsiClp",
                 .product(name: "libCoinUtils", package: "CoinUtils"),
                 .product(name: "libOsi", package: "Osi"),
                 .product(name: "libOsiCommonTest", package: "Osi")
             ],
-            path: "test",
-            cxxSettings: [
-                .headerSearchPath(".")
-            ]
-        )
+            path: "test"
+        ),
+        .testTarget( // add *XCTest* tests that import the executable's code (not always needed)
+            name: "XCosiUnitTest",
+            dependencies: ["osiUnitTest"],
+            path: "Xcode/XCTest"
+            )
+        
     ]
 )
+
