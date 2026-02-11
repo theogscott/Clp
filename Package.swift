@@ -50,6 +50,9 @@ let package = Package(
             url: "https://github.com/theogscott/Osi",
             branch: "SPM"           // for a rolling dev branch
         )
+        .package(
+            url: "https://github.com/theogscott/Data-NetLib",
+            branch: "SPM"
             
     ],
     
