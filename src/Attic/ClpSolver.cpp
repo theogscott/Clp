@@ -253,6 +253,10 @@ int ClpMain1(int argc, const char *argv[], AbcSimplex *models)
     dirSample = "..\\..\\..\\..\\Data\\Sample\\";
     dirNetlib = "..\\..\\..\\..\\Data\\Netlib\\";
     dirMiplib = "..\\..\\..\\..\\Data\\miplib3\\";
+#elif COIN_XCODE
+      dirSample = "Data\\Sample\\";
+      dirNetlib = "Data\\Netlib\\";
+      dirMiplib = "Data\\miplib3\\";
 #else
     dirSample = "..\\..\\Data\\Sample\\";
     dirNetlib = "..\\..\\Data\\Netlib\\";

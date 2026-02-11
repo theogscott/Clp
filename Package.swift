@@ -263,6 +263,7 @@ let package = Package(
                 
                 .define("OSICLPLIB_BUILD", to: "1"),
                 .define("_LIB", to: "1"),
+                .define("COIN_XCODE", to: "1"),
                 
                 // Tell the compiler where to find your headers from path sources
                 .headerSearchPath(".")
@@ -275,7 +276,10 @@ let package = Package(
                 .product(name: "libOsi", package: "Osi"),
                 .product(name: "libOsiCommonTest", package: "Osi")
             ],
-            path: "test"
+            path: "test",
+            cxxSettings:  [
+                .define("COIN_XCODE", to: "1")
+            ]
         ),
         .testTarget( // add *XCTest* tests that import the executable's code (not always needed)
             name: "XCosiUnitTest",
