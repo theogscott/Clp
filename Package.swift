@@ -31,6 +31,10 @@ let package = Package(
             type: .static,
             targets: ["libOsiClp"]
         ),
+//        .library(
+//            name: "Data-Netlib",
+//            targets: ["XCosiUnitTest"]
+//        ),
         .executable (
             name: "osiUnitTest",
             targets: ["osiUnitTest"]
@@ -50,10 +54,11 @@ let package = Package(
             url: "https://github.com/theogscott/Osi",
             branch: "SPM"           // for a rolling dev branch
         )
+        ,
         .package(
             url: "https://github.com/theogscott/Data-NetLib",
             branch: "SPM"
-            
+          )
     ],
     
     // MARK: – Targets (the actual code and test suite)
@@ -277,7 +282,9 @@ let package = Package(
             dependencies: ["libClp", "libOsiClp",
                 .product(name: "libCoinUtils", package: "CoinUtils"),
                 .product(name: "libOsi", package: "Osi"),
-                .product(name: "libOsiCommonTest", package: "Osi")
+                .product(name: "libOsiCommonTest", package: "Osi"),
+                           
+                .product(name: "libDataNetlib", package: "Data-NetLib")
             ],
             path: "test",
             cxxSettings:  [
@@ -286,7 +293,9 @@ let package = Package(
         ),
         .testTarget( // add *XCTest* tests that import the executable's code (not always needed)
             name: "XCosiUnitTest",
-            dependencies: ["osiUnitTest"],
+            dependencies: ["osiUnitTest",
+                           .product(name: "libDataNetlib", package: "Data-NetLib")
+            ],
             path: "Xcode/XCTest"
             )
         
