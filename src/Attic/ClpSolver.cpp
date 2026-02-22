@@ -254,9 +254,10 @@ int ClpMain1(int argc, const char *argv[], AbcSimplex *models)
     dirNetlib = "..\\..\\..\\..\\Data\\Netlib\\";
     dirMiplib = "..\\..\\..\\..\\Data\\miplib3\\";
 #elif COIN_XCODE
-      dirSample = "Data\\Sample\\";
-      dirNetlib = "Data\\Netlib\\";
-      dirMiplib = "Data\\miplib3\\";
+      // Xcode supports and implements sanboxing, so it can't access files outside the scope of the application without explicit permissions from user. The preference would have been the have ./Data Prefic for xcode, that is possible if either all the data is merged into a single repo, or more complicated code is required to handle a ./Data to be shared among bundles in the sandbox while keeping seperate repos.
+      dirSample = "./Sample/";
+      dirNetlib = "./Netlib/";
+      dirMiplib = "./miplib3/";
 #else
     dirSample = "..\\..\\Data\\Sample\\";
     dirNetlib = "..\\..\\Data\\Netlib\\";

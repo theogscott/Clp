@@ -4,7 +4,10 @@
 //
 
 import XCTest
-import libDataNetlib               // gives us LibDataNetlibResources.bundle
+import DataNetlib // gives us DataNetlibResources.bundle
+import DataSample //gives us DataSampleResources
+import DataMiplib3
+
 
 final class OSITest: XCTestCase {
 
@@ -12,43 +15,29 @@ final class OSITest: XCTestCase {
     //  Path to the compiled CLI – fixed version (see above)
     // ---------------------------------------------------------
     private func osiUnitTestPath() -> String {
-        let env = ProcessInfo.processInfo.environment
-        if let productsDir = env["BUILT_PRODUCTS_DIR"] {
-            #if os(Windows)
-            let exeName = "osiUnitTest.exe"
-            #else
-            let exeName = "osiUnitTest"
-            #endif
-            return URL(fileURLWithPath: productsDir)
-                .appendingPathComponent(exeName).path
-        }
+        let testBundleURL = Bundle(for: type(of: self)).bundleURL
+        let productsDir   = testBundleURL.deletingLastPathComponent()
 
-        var url = URL(fileURLWithPath: #file)   // this source file
-        for _ in 0..<4 { url.deleteLastPathComponent() } // → .build/debug
         #if os(Windows)
         let exeName = "osiUnitTest.exe"
         #else
         let exeName = "osiUnitTest"
         #endif
-        return url.appendingPathComponent(exeName).path
+
+        return productsDir.appendingPathComponent(exeName).path
     }
 
     // ---------------------------------------------------------
-    //  Copy resources from libDataNetlib.bundle to the folder that
-    //  contains the CLI executable.
+    //  Copy resources (plain prints – no XCTContext, works on every OS).
     // ---------------------------------------------------------
-    // -----------------------------------------------------------------
-    // Helper that copies the resources and prints debug info.
-    // No XCTest activity → no main‑actor inference.
-    // -----------------------------------------------------------------
-    private func copyResourcesNextToExecutable() throws {
+    private func copyResourcesNextToExecutable(dataResourceBundle : Bundle) throws {
         let exeURL = URL(fileURLWithPath: osiUnitTestPath())
         let destFolder = exeURL.deletingLastPathComponent()
 
-        guard let srcRoot = LibDataNetlibResources.bundle.resourceURL else {
-            throw NSError(domain: "CopyRes", code: 1,
+        guard let srcRoot = dataResourceBundle.resourceURL else {
+            throw NSError(domain: "Copy Data ResourceR", code: 1,
                           userInfo: [NSLocalizedDescriptionKey:
-                                     "Could not locate DataNetlib_libDataNetlib.bundle"])
+                                     "Could not locate data in bundle resource, Should be in Resources/Data/Netlib or Resources/Data/Sample"])
         }
 
         // ---- DEBUG INFO (plain prints – safe on every platform) ----
@@ -94,16 +83,17 @@ final class OSITest: XCTestCase {
         }
     }
 
-  
-
 
     // ---------------------------------------------------------
     //  The actual test – async only because we hop onto the main actor
     //  for XCTContext (optional; you can keep it sync if you prefer).
     // ---------------------------------------------------------
     func testOSIUnit() async throws {
-        try copyResourcesNextToExecutable()
-
+        try copyResourcesNextToExecutable(dataResourceBundle: DataNetlib.bundle)
+        try copyResourcesNextToExecutable(dataResourceBundle: DataSample.bundle)
+        try copyResourcesNextToExecutable(dataResourceBundle: DataMiplib3.bundle)
+                                    6
+                                                        
         let exe = osiUnitTestPath()
         print("🚀 Full path of the CLI → \(exe)")
 

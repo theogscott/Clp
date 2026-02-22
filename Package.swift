@@ -31,10 +31,6 @@ let package = Package(
             type: .static,
             targets: ["libOsiClp"]
         ),
-//        .library(
-//            name: "Data-Netlib",
-//            targets: ["XCosiUnitTest"]
-//        ),
         .executable (
             name: "osiUnitTest",
             targets: ["osiUnitTest"]
@@ -53,12 +49,20 @@ let package = Package(
         .package(
             url: "https://github.com/theogscott/Osi",
             branch: "SPM"           // for a rolling dev branch
-        )
-        ,
+        ),
         .package(
             url: "https://github.com/theogscott/Data-NetLib",
             branch: "SPM"
-          )
+          ),
+        .package(
+            url: "https://github.com/theogscott/Data-Sample",
+            branch: "SPM"
+          ),
+        .package(
+            url: "https://github.com/theogscott/Data-miplib3",
+            branch: "SPM"
+          ),
+
     ],
     
     // MARK: – Targets (the actual code and test suite)
@@ -284,7 +288,9 @@ let package = Package(
                 .product(name: "libOsi", package: "Osi"),
                 .product(name: "libOsiCommonTest", package: "Osi"),
                            
-                .product(name: "libDataNetlib", package: "Data-NetLib")
+                .product(name: "DataNetlib", package: "Data-NetLib"),
+                .product(name: "DataSample", package: "Data-Sample"),
+                .product(name: "DataMiplib3",  package: "Data-miplib3")
             ],
             path: "test",
             cxxSettings:  [
@@ -294,7 +300,10 @@ let package = Package(
         .testTarget( // add *XCTest* tests that import the executable's code (not always needed)
             name: "XCosiUnitTest",
             dependencies: ["osiUnitTest",
-                           .product(name: "libDataNetlib", package: "Data-NetLib")
+                           .product(name: "DataNetlib", package: "Data-NetLib"),
+                           .product(name: "DataSample", package: "Data-Sample"),
+                           .product(name: "DataMiplib3",  package: "Data-miplib3")
+                                      
             ],
             path: "Xcode/XCTest"
             )
