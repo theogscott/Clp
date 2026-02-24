@@ -1,0 +1,26 @@
+ # xcodecloud.yml – Xcode Cloud workflow for the CLP Swift package
+
+  name: CLP Package CI
+
+  # Only macOS is needed – the package builds a static framework for this platform.
+  platforms:
+    - macOS
+
+  # Tell Xcode Cloud that the Swift package lives at the repo root.
+  package:
+    path: ""
+
+  # Build the library product named “libClp” (defined in Package.swift).
+  build:
+    products: [libClp]
+
+  # Run the executable test target that ships with the package.
+  # Xcode Cloud will compile `osiUnitTest` and run it as a test harness.
+  test:
+    products: [osiUnitTest]
+
+  # Optional – archive the built framework so it can be downloaded from
+  # the build summary.  Remove this section if you don’t need an artifact.
+  artifact:
+    name: Clp.framework.zip
+    path: Build/Products/Release-iphoneos/libClp.a
