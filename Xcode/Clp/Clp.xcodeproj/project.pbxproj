@@ -166,7 +166,6 @@
 				9B2710072F2D0CD700F814E3 /* ClpExamplesTestBarrier */,
 				9B2710ED2F2D247100F814E3 /* ClpExamplesTestQP */,
 				9B25EC592F3B2746002EB813 /* osiUnitTestMain */,
-				9B2710E22F2D20E000F814E3 /* Frameworks */,
 				9B270EA42F2CF15D00F814E3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -232,13 +231,6 @@
 			name = examples;
 			path = "/Users/tgs/Development/Xcode/tgs/coin-or-Xcode/Clp/examples";
 			sourceTree = "<absolute>";
-		};
-		9B2710E22F2D20E000F814E3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -319,6 +311,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					9B25EC572F3B2746002EB813 = {
@@ -517,32 +510,50 @@
 		9B270EAB2F2CF15D00F814E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.coin-or.clp.tgs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		9B270EAC2F2CF15D00F814E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.coin-or.clp.tgs";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
 		9B27100B2F2D0CD700F814E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		9B27100C2F2D0CD700F814E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
