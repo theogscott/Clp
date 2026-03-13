@@ -7,21 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9B07541D2F61AB08007EFE99 /* ClpFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B0754112F61AB08007EFE99 /* ClpFramework.framework */; };
-		9B77F81D2F61B51300BCFE0A /* libClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9B77F81C2F61B51300BCFE0A /* libClp */; };
-		9B77F81F2F61B51300BCFE0A /* libOsiClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9B77F81E2F61B51300BCFE0A /* libOsiClp */; };
 		9B77F8212F61B51300BCFE0A /* osiUnitTest in Frameworks */ = {isa = PBXBuildFile; productRef = 9B77F8202F61B51300BCFE0A /* osiUnitTest */; };
+		9B9ED8692F64871100F9CDFF /* libClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9B9ED8682F64871100F9CDFF /* libClp */; };
+		9B9ED86B2F64871100F9CDFF /* libOsiClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9B9ED86A2F64871100F9CDFF /* libOsiClp */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		9B07541E2F61AB08007EFE99 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9B0754082F61AB08007EFE99 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9B0754102F61AB08007EFE99;
-			remoteInfo = ClpFramework;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9B0754112F61AB08007EFE99 /* ClpFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClpFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,8 +35,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B77F81F2F61B51300BCFE0A /* libOsiClp in Frameworks */,
-				9B77F81D2F61B51300BCFE0A /* libClp in Frameworks */,
+				9B9ED86B2F64871100F9CDFF /* libOsiClp in Frameworks */,
+				9B9ED8692F64871100F9CDFF /* libClp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,7 +45,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B77F8212F61B51300BCFE0A /* osiUnitTest in Frameworks */,
-				9B07541D2F61AB08007EFE99 /* ClpFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +56,7 @@
 			children = (
 				9B0754132F61AB08007EFE99 /* ClpFramework */,
 				9B0754202F61AB08007EFE99 /* ClpFrameworkTests */,
+				9B9ED8672F64871100F9CDFF /* Frameworks */,
 				9B0754122F61AB08007EFE99 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -79,6 +68,13 @@
 				9B07541C2F61AB08007EFE99 /* ClpFrameworkTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9B9ED8672F64871100F9CDFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,8 +108,8 @@
 			);
 			name = ClpFramework;
 			packageProductDependencies = (
-				9B77F81C2F61B51300BCFE0A /* libClp */,
-				9B77F81E2F61B51300BCFE0A /* libOsiClp */,
+				9B9ED8682F64871100F9CDFF /* libClp */,
+				9B9ED86A2F64871100F9CDFF /* libOsiClp */,
 			);
 			productName = ClpFramework;
 			productReference = 9B0754112F61AB08007EFE99 /* ClpFramework.framework */;
@@ -130,7 +126,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9B07541F2F61AB08007EFE99 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				9B0754202F61AB08007EFE99 /* ClpFrameworkTests */,
@@ -218,14 +213,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9B07541F2F61AB08007EFE99 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9B0754102F61AB08007EFE99 /* ClpFramework */;
-			targetProxy = 9B07541E2F61AB08007EFE99 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9B0754232F61AB08007EFE99 /* Debug */ = {
@@ -356,10 +343,11 @@
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NMJ9MSBK39;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -385,7 +373,8 @@
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_MODULE = YES;
@@ -393,7 +382,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
@@ -404,10 +392,11 @@
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NMJ9MSBK39;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -433,14 +422,14 @@
 				SDKROOT = auto;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_MODULE = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
@@ -449,9 +438,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NMJ9MSBK39;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
@@ -460,12 +450,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
@@ -474,9 +464,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NMJ9MSBK39;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
@@ -485,12 +476,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
@@ -539,20 +530,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9B77F81C2F61B51300BCFE0A /* libClp */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9B77F81B2F61B51300BCFE0A /* XCRemoteSwiftPackageReference "Clp" */;
-			productName = libClp;
-		};
-		9B77F81E2F61B51300BCFE0A /* libOsiClp */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9B77F81B2F61B51300BCFE0A /* XCRemoteSwiftPackageReference "Clp" */;
-			productName = libOsiClp;
-		};
 		9B77F8202F61B51300BCFE0A /* osiUnitTest */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9B77F81B2F61B51300BCFE0A /* XCRemoteSwiftPackageReference "Clp" */;
 			productName = osiUnitTest;
+		};
+		9B9ED8682F64871100F9CDFF /* libClp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B77F81B2F61B51300BCFE0A /* XCRemoteSwiftPackageReference "Clp" */;
+			productName = libClp;
+		};
+		9B9ED86A2F64871100F9CDFF /* libOsiClp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B77F81B2F61B51300BCFE0A /* XCRemoteSwiftPackageReference "Clp" */;
+			productName = libOsiClp;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
