@@ -10,11 +10,14 @@
 		9B77F8212F61B51300BCFE0A /* osiUnitTest in Frameworks */ = {isa = PBXBuildFile; productRef = 9B77F8202F61B51300BCFE0A /* osiUnitTest */; };
 		9B9ED8692F64871100F9CDFF /* libClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9B9ED8682F64871100F9CDFF /* libClp */; };
 		9B9ED86B2F64871100F9CDFF /* libOsiClp in Frameworks */ = {isa = PBXBuildFile; productRef = 9B9ED86A2F64871100F9CDFF /* libOsiClp */; };
+		9B9ED8772F6498DA00F9CDFF /* OSITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9ED8762F6498DA00F9CDFF /* OSITest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9B0754112F61AB08007EFE99 /* ClpFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClpFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B07541C2F61AB08007EFE99 /* ClpFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClpFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B9ED8762F6498DA00F9CDFF /* OSITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OSITest.swift; path = ../XCTest/Swift/OSITest.swift; sourceTree = SOURCE_ROOT; };
+		9B9ED8862F64F57000F9CDFF /* osiUnitTest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = osiUnitTest.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -54,6 +57,8 @@
 		9B0754072F61AB08007EFE99 = {
 			isa = PBXGroup;
 			children = (
+				9B9ED8862F64F57000F9CDFF /* osiUnitTest.xctestplan */,
+				9B9ED8762F6498DA00F9CDFF /* OSITest.swift */,
 				9B0754132F61AB08007EFE99 /* ClpFramework */,
 				9B0754202F61AB08007EFE99 /* ClpFrameworkTests */,
 				9B9ED8672F64871100F9CDFF /* Frameworks */,
@@ -209,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B9ED8772F6498DA00F9CDFF /* OSITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
