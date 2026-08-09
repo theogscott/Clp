@@ -31,6 +31,7 @@
 #include "ClpEventHandler.hpp"
 #include "ClpLinearObjective.hpp"
 #include "ClpSolve.hpp"
+#include "ClpOutput.hpp"
 #include "ClpPackedMatrix.hpp"
 #include "ClpMessage.hpp"
 #include "CoinTime.hpp"
@@ -843,13 +844,24 @@ ClpSimplex::dealWithAbc(int solveType, int startUp,
  */
 int ClpSimplex::initialSolve(ClpSolve &options)
 {
+  presolveTime_ = 0.0;
+  presolveRows_ = -1;
+  presolveCols_ = -1;
   ClpSolve::SolveType method = options.getSolveType();
   //ClpSolve::SolveType originalMethod=method;
   ClpSolve::PresolveType presolve = options.getPresolveType();
   int saveMaxIterations = maximumIterations();
   int finalStatus = -1;
   int numberIterations = 0;
-  double time1 = CoinCpuTime();
+  // Select timing basis: wall time when a wall-clock limit is active (the
+  // default in CBC), CPU time otherwise.  All interval and summary messages
+  // produced by this function use the same basis so they stay consistent with
+  // whatever limit is being enforced by hitMaximumIterations().
+  const bool clpUseWallTime = (dblParam_[ClpMaxWallSeconds] >= 0.0);
+  auto clpGetTime = [clpUseWallTime]() -> double {
+    return clpUseWallTime ? CoinGetTimeOfDay() : CoinCpuTime();
+  };
+  double time1 = clpGetTime();
   double timeX = time1;
   double time2 = 0.0;
   ClpMatrixBase *saveMatrix = NULL;
@@ -973,8 +985,23 @@ int ClpSimplex::initialSolve(ClpSolve &options)
 #ifndef CLP_NO_STD
     }
 #endif
-    time2 = CoinCpuTime();
+    time2 = clpGetTime();
     timePresolve = time2 - timeX;
+    presolveTime_ = timePresolve;
+    if (model2 && model2 != this) {
+      presolveRows_ = model2->numberRows();
+      presolveCols_ = model2->numberColumns();
+      // Store on model2 so event handler can report presolve reduction.
+      // presolveRows_/Cols_ on model2 stores the presolved dimensions;
+      // the event handler compares with origRows/origCols from state.
+      model2->presolveTime_ = timePresolve;
+      model2->presolveRows_ = model2->numberRows();
+      model2->presolveCols_ = model2->numberColumns();
+      ClpLpEventHandler *lpProg =
+	dynamic_cast<ClpLpEventHandler *>(model2->eventHandler());
+      if (lpProg)
+	lpProg->printPresolveStats();
+    }
     handler_->message(CLP_INTERVAL_TIMING, messages_)
       << "Presolve" << timePresolve << time2 - time1
       << CoinMessageEol;
@@ -1709,7 +1736,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
       model2->solveBenders(&benders, options);
       //move solution
       method = ClpSolve::notImplemented;
-      time2 = CoinCpuTime();
+      time2 = clpGetTime();
       timeCore = time2 - timeX;
       handler_->message(CLP_INTERVAL_TIMING, messages_)
         << "Crossover" << timeCore << time2 - time1
@@ -1742,6 +1769,8 @@ int ClpSimplex::initialSolve(ClpSolve &options)
       method = ClpSolve::usePrimal; // switch off sprint
     }
   }
+  // save interval time
+  double interval = model2->getMinIntervalProgressUpdate();
   if (method == ClpSolve::useDual) {
 #ifdef CLP_USEFUL_PRINTOUT
     debugInt[6] = 1;
@@ -1833,7 +1862,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
 #ifdef COIN_HAS_VOL
         int returnCode = solveWithVolume(model2, nPasses, saveDoIdiot);
         if (!returnCode) {
-          time2 = CoinCpuTime();
+          time2 = clpGetTime();
           timeIdiot = time2 - timeX;
           handler_->message(CLP_INTERVAL_TIMING, messages_)
             << "Idiot Crash" << timeIdiot << time2 - time1
@@ -1967,7 +1996,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
       delete[] saveUpper;
       saveUpper = NULL;
     }
-    time2 = CoinCpuTime();
+    time2 = clpGetTime();
     timeCore = time2 - timeX;
     handler_->message(CLP_INTERVAL_TIMING, messages_)
       << "Dual" << timeCore << time2 - time1
@@ -1981,7 +2010,15 @@ int ClpSimplex::initialSolve(ClpSolve &options)
     if (doIdiot) {
       int nPasses = 0;
       Idiot info(*model2);
-      info.setMinIntervalStatusUpdate(model2->getMinIntervalProgressUpdate());
+      // For idiot use time
+      info.setMinIntervalStatusUpdate(interval);
+      if (interval==1.0e-9) {
+	info.setMinIntervalStatusUpdate(0.7);
+	model2->setMinIntervalProgressUpdate(0.7);
+	ClpLpEventHandler *lpProg =
+	  dynamic_cast<ClpLpEventHandler *>(model2->eventHandler());
+	lpProg->setTimeFreq(0.7);
+      }
       info.setStrategy(idiotOptions | info.getStrategy());
       // Get average number of elements per column
       double ratio = static_cast< double >(numberElements) / static_cast< double >(numberColumns);
@@ -2121,7 +2158,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
         int returnCode = solveWithVolume(model2, nPasses, saveDoIdiot);
         nPasses = 0;
         if (!returnCode) {
-          time2 = CoinCpuTime();
+          time2 = clpGetTime();
           timeIdiot = time2 - timeX;
           handler_->message(CLP_INTERVAL_TIMING, messages_)
             << "Idiot Crash" << timeIdiot << time2 - time1
@@ -2308,7 +2345,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
 #endif
         model2->scaling(saveScalingFlag);
 #endif
-        time2 = CoinCpuTime();
+        time2 = clpGetTime();
         timeIdiot = time2 - timeX;
         handler_->message(CLP_INTERVAL_TIMING, messages_)
           << "Idiot Crash" << timeIdiot << time2 - time1
@@ -2440,7 +2477,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
       }
     }
 #endif
-    time2 = CoinCpuTime();
+    time2 = clpGetTime();
     timeCore = time2 - timeX;
     handler_->message(CLP_INTERVAL_TIMING, messages_)
       << "Primal" << timeCore << time2 - time1
@@ -3110,12 +3147,18 @@ int ClpSimplex::initialSolve(ClpSolve &options)
     model2->primal(1);
 #endif
     model2->setPerturbation(savePerturbation);
+    // in case changed
+    model2->setMinIntervalProgressUpdate(interval);
+    ClpLpEventHandler *lpProg =
+      dynamic_cast<ClpLpEventHandler *>(model2->eventHandler());
+    if (lpProg)
+      lpProg->setTimeFreq(interval);
     if (model2 != originalModel2) {
       originalModel2->moveInfo(*model2);
       delete model2;
       model2 = originalModel2;
     }
-    time2 = CoinCpuTime();
+    time2 = clpGetTime();
     timeCore = time2 - timeX;
     handler_->message(CLP_INTERVAL_TIMING, messages_)
       << "Sprint" << timeCore << time2 - time1
@@ -3327,7 +3370,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
     CoinMemcpyN(model2->dualColumnSolution(),
       numberColumns, barrier.dualColumnSolution());
 #endif
-    time2 = CoinCpuTime();
+    time2 = clpGetTime();
     timeCore = time2 - timeX;
     handler_->message(CLP_INTERVAL_TIMING, messages_)
       << "Barrier" << timeCore << time2 - time1
@@ -3761,7 +3804,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
         model2->primal(1);
     }
     model2->setPerturbation(savePerturbation);
-    time2 = CoinCpuTime();
+    time2 = clpGetTime();
     timeCore = time2 - timeX;
     handler_->message(CLP_INTERVAL_TIMING, messages_)
       << "Crossover" << timeCore << time2 - time1
@@ -3799,11 +3842,17 @@ int ClpSimplex::initialSolve(ClpSolve &options)
     delete pinfo;
     pinfo = NULL;
     factorization_->areaFactor(model2->factorization()->adjustedAreaFactor());
-    time2 = CoinCpuTime();
+    time2 = clpGetTime();
     timePresolve += time2 - timeX;
+    // I wish the log levels had not been changed
+    // if in clp - cheat to get postsolve message
+    int logLevel = handler_->logLevel();
+    if (logLevel==1 && (model2->specialOptions()&COIN_CBC_USING_CLP)==0)
+      handler_->setLogLevel(2);
     handler_->message(CLP_INTERVAL_TIMING, messages_)
       << "Postsolve" << time2 - timeX << time2 - time1
       << CoinMessageEol;
+    handler_->setLogLevel(logLevel);
     timeX = time2;
     if (!presolveToFile) {
 #if 1 //ndef ABC_INHERIT
@@ -3920,7 +3969,7 @@ int ClpSimplex::initialSolve(ClpSolve &options)
       numberIterations += numberIterations_;
       numberIterations_ = numberIterations;
       finalStatus = status();
-      time2 = CoinCpuTime();
+      time2 = clpGetTime();
       handler_->message(CLP_INTERVAL_TIMING, messages_)
         << "Cleanup" << time2 - timeX << time2 - time1
         << CoinMessageEol;

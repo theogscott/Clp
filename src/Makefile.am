@@ -46,6 +46,7 @@ libClp_la_SOURCES = \
 	ClpNonLinearCost.cpp ClpNonLinearCost.hpp \
 	ClpNode.cpp ClpNode.hpp \
 	ClpObjective.cpp ClpObjective.hpp \
+	ClpOutput.cpp ClpOutput.hpp \
 	ClpPackedMatrix.cpp ClpPackedMatrix.hpp \
 	ClpParamUtils.cpp ClpParamUtils.hpp \
 	ClpParam.cpp ClpParam.hpp \
@@ -58,6 +59,7 @@ libClp_la_SOURCES = \
 	ClpPdcoBase.cpp ClpPdcoBase.hpp \
 	ClpLsqr.cpp ClpLsqr.hpp \
 	ClpPresolve.cpp ClpPresolve.hpp \
+	ClpRacingSolver.cpp ClpRacingSolver.hpp \
 	ClpPrimalColumnDantzig.cpp ClpPrimalColumnDantzig.hpp \
 	ClpPrimalColumnPivot.cpp ClpPrimalColumnPivot.hpp \
 	ClpPrimalColumnSteepest.cpp ClpPrimalColumnSteepest.hpp \
@@ -192,6 +194,7 @@ includecoin_HEADERS = \
 	ClpDynamicExampleMatrix.hpp \
 	ClpDynamicMatrix.hpp \
 	ClpEventHandler.hpp \
+	ClpAbortHandler.hpp \
 	ClpFactorization.hpp \
 	ClpGubDynamicMatrix.hpp \
 	ClpGubMatrix.hpp \
@@ -205,12 +208,14 @@ includecoin_HEADERS = \
 	ClpNonLinearCost.hpp \
 	ClpNode.hpp \
 	ClpObjective.hpp \
+	ClpOutput.hpp \
 	ClpPackedMatrix.hpp \
 	ClpParamUtils.hpp \
 	ClpPdcoBase.hpp \
 	ClpPlusMinusOneMatrix.hpp \
 	ClpParameters.hpp \
 	ClpPresolve.hpp \
+	ClpRacingSolver.hpp \
 	ClpPrimalColumnDantzig.hpp \
 	ClpPrimalColumnPivot.hpp \
 	ClpPrimalColumnSteepest.hpp \

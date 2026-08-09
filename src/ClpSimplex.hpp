@@ -86,6 +86,9 @@ class AbcSimplex;
 #define LONG_REGION_2 1
 #define SHORT_REGION 1
 #endif
+#ifndef CLP_START_FINISH
+#define CLP_START_FINISH 0
+#endif
 /** This solves LPs using the simplex method
 
     It inherits from ClpModel and all its arrays are created at
@@ -1490,6 +1493,17 @@ public:
   {
     vectorMode_ = value;
   }
+  /** Maximum number of BLAS threads to use during LP solves (e.g. OpenBLAS).
+      -1 (default) means no restriction.  Set to 1 to prevent thread
+      multiplication when CBC is already running parallel B&B. */
+  inline int blasNumThreads() const
+  {
+    return blasNumThreads_;
+  }
+  inline void setBLASNumThreads(int num)
+  {
+    blasNumThreads_ = num;
+  }
   //@}
   /**@name status methods */
   //@{
@@ -1786,6 +1800,9 @@ protected:
   double bestObjectiveValue_;
   /// More special options - see set for details
   int moreSpecialOptions_;
+  /** Maximum BLAS threads during LP solves; -1 = no restriction.
+      When >= 0, openblas_set_num_threads() is called before each resolve(). */
+  int blasNumThreads_;
   /// Iteration when we entered dual or primal
   int baseIteration_;
   /// Vector mode - try and use vector instructions
@@ -2007,6 +2024,21 @@ protected:
 
   /// last time when status was updated
   double lastStatusUpdate_;
+
+public:
+  /// @name Presolve statistics (populated by initialSolve with ClpSolve)
+  //@{
+  /// Time spent in CLP presolve (seconds), or 0 if presolve was off.
+  double presolveTime() const { return presolveTime_; }
+  /// Number of rows after presolve (-1 if presolve was off).
+  int presolveRows() const { return presolveRows_; }
+  /// Number of columns after presolve (-1 if presolve was off).
+  int presolveCols() const { return presolveCols_; }
+  //@}
+protected:
+  double presolveTime_ = 0.0;
+  int presolveRows_ = -1;
+  int presolveCols_ = -1;
 };
 //#############################################################################
 /** A function that tests the methods in the ClpSimplex class. The

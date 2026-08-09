@@ -126,6 +126,13 @@ AM_CONDITIONAL([COIN_HAS_WSMP],[test $have_wsmp = yes])
 
 AC_COIN_CHK_GNU_READLINE([ClpLib])
 
+# ClpRacingSolver uses std::thread. On glibc >= 2.34 (Ubuntu 22.04+),
+# pthread_create lives in libc and no extra flag is needed.  On older
+# systems AC_SEARCH_LIBS will add -lpthread to LIBS (end of link command)
+# rather than to CLPLIB_LFLAGS; this avoids changing the link order in a
+# way that causes at-exit crashes in static builds.
+AC_SEARCH_LIBS([pthread_create],[pthread])
+
 ##############################################################################
 #                   VPATH links for example input files                      #
 ##############################################################################
@@ -170,6 +177,12 @@ AC_CONFIG_HEADERS([src/config.h src/config_clp.h])
 if test $coin_has_osi = yes ; then
   AC_CONFIG_HEADERS([src/OsiClp/config_osiclp.h])
 fi
+
+# Capture git revision for display in solver header
+AC_MSG_CHECKING([git revision])
+CLP_GIT_HASH=`cd $srcdir && (git describe --always --dirty 2>/dev/null || echo "unknown")`
+AC_MSG_RESULT([$CLP_GIT_HASH])
+AC_DEFINE_UNQUOTED([CLP_GIT_HASH], ["$CLP_GIT_HASH"], [Git hash at configure time])
 
 # Finally, we let configure write all the output...
 AC_COIN_FINALIZE

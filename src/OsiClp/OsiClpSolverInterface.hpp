@@ -1162,6 +1162,16 @@ public:
   {
     solveOptions_ = options;
   }
+  /// Enable/disable LP racing for initialSolve (races dual vs primal variants)
+  inline void setRacingLP(int numThreads)
+  {
+    racingLPThreads_ = numThreads;
+  }
+  /// Get racing LP thread count (0 = disabled)
+  inline int racingLP() const
+  {
+    return racingLPThreads_;
+  }
   /** Tighten bounds - lightweight or very lightweight
       0 - normal, 1 lightweight but just integers, 2 lightweight and all
   */
@@ -1484,6 +1494,8 @@ protected:
   mutable ClpDataSave saveData_;
   /// Options for initialSolve
   ClpSolve solveOptions_;
+  /// Number of threads for LP racing (0 = disabled)
+  int racingLPThreads_ = 0;
   /** Scaling option
       When scaling is on it is possible that the scaled problem
       is feasible but the unscaled is not.  Clp returns a secondary
@@ -1637,6 +1649,47 @@ protected:
   bool inTrouble_;
   //@}
 };
+// switch off testing if OsiClp
+#ifndef CBC_OTHER_SOLVER
+#ifndef CBC_SKIP_CLP_TEST
+#define CBC_SKIP_CLP_TEST 1
+#endif
+#endif
+#if 0
+  /** Return pointer to OsiClpSolverInterface or NULL -
+      Changed to a static_cast for speed */
+  inline OsiClpSolverInterface * getClpSolver(OsiSolverInterface *solver)
+  {
+#ifndef CBC_OTHER_SOLVER
+    void * xxxxxx = solver;
+    long int yyyyyy = reinterpret_cast<long int>(xxxxxx)-0x2b0;
+    return reinterpret_cast<OsiClpSolverInterface *>(yyyyyy);
+#else
+    return dynamic_cast<OsiClpSolverInterface *>(solver);
+#endif
+  }
+  inline const OsiClpSolverInterface * getConstClpSolver(const OsiSolverInterface *solver)
+  {
+#ifndef CBC_OTHER_SOLVER
+    const void * xxxxxx = solver;
+    long int yyyyyy = reinterpret_cast<const long int>(xxxxxx)-0x2b0;
+    return reinterpret_cast<const OsiClpSolverInterface *>(yyyyyy);
+#else
+    return dynamic_cast<const OsiClpSolverInterface *>(solver);
+#endif
+  }
+#else
+  /** Return pointer to OsiClpSolverInterface or NULL -
+      Can be changed to a static_cast for speed */
+  inline OsiClpSolverInterface * getClpSolver(OsiSolverInterface *solver)
+  {
+    return dynamic_cast<OsiClpSolverInterface *>(solver);
+  }
+  inline const OsiClpSolverInterface * getConstClpSolver(const OsiSolverInterface *solver)
+  {
+    return dynamic_cast<const OsiClpSolverInterface *>(solver);
+  }
+#endif
 // So unit test can find out if NDEBUG set
 OSICLPLIB_EXPORT
 bool OsiClpHasNDEBUG();

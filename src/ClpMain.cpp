@@ -10,6 +10,7 @@
 #include "CoinParam.hpp"
 #include "CoinPragma.hpp"
 
+#include "ClpOutput.hpp"
 #include "ClpSolver.hpp"
 
 //#define CILK_TEST
@@ -25,6 +26,17 @@ static void cilkTest();
 #include "/include/lapacke.h"
 #ifndef COIN_FACTORIZATION_DENSE_CODE
 #define COIN_FACTORIZATION_DENSE_CODE 1
+#endif
+
+//#############################################################################
+
+// Call openblas_set_num_threads when OpenBLAS is explicitly linked.
+// When --no-openblas is used, CLP_USE_OPENBLAS is not defined and no
+// reference to openblas_set_num_threads is emitted.
+#if defined(CLP_USE_OPENBLAS)
+extern "C" {
+void openblas_set_num_threads(int num_threads);
+}
 #endif
 
 //#############################################################################
@@ -246,8 +258,8 @@ main(int argc, const char *argv[])
 #ifdef CILK_TEST
   cilkTest();
 #endif
-#if CLP_USE_OPENBLAS
-  openblas_set_num_threads(CLP_USE_OPENBLAS);
+#if defined(CLP_USE_OPENBLAS)
+  openblas_set_num_threads(1);
 #endif
 #ifdef LAPACK_TEST
   //void openblas_set_num_threads(int num_threads);
@@ -271,16 +283,9 @@ main(int argc, const char *argv[])
 #else
   AbcSimplex model;
 #endif
-  std::cout << "Coin LP version " << CLP_VERSION
-            << ", build " << __DATE__ << std::endl;
-  // Print command line
-  if (argc > 1) {
-    printf("command line - ");
-    for (int i = 0; i < argc; i++)
-      printf("%s ", argv[i]);
-    printf("\n");
-  }
   ClpMain0(model);
+  ClpOutput::printSolverHeader(model.messageHandler(), model.logLevel(),
+    argc, argv);
 
   int returnCode;
   std::deque<std::string> inputQueue;

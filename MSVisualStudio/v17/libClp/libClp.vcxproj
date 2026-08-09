@@ -203,12 +203,14 @@
     <ClCompile Include="..\..\..\src\ClpNode.cpp" />
     <ClCompile Include="..\..\..\src\ClpNonLinearCost.cpp" />
     <ClCompile Include="..\..\..\src\ClpObjective.cpp" />
+    <ClCompile Include="..\..\..\src\ClpOutput.cpp" />
     <ClCompile Include="..\..\..\src\ClpPackedMatrix.cpp" />
     <ClCompile Include="..\..\..\src\ClpPdco.cpp" />
     <ClCompile Include="..\..\..\src\ClpPdcoBase.cpp" />
     <ClCompile Include="..\..\..\src\ClpPlusMinusOneMatrix.cpp" />
     <ClCompile Include="..\..\..\src\ClpPredictorCorrector.cpp" />
     <ClCompile Include="..\..\..\src\ClpPresolve.cpp" />
+    <ClCompile Include="..\..\..\src\ClpRacingSolver.cpp" />
     <ClCompile Include="..\..\..\src\ClpPrimalColumnDantzig.cpp" />
     <ClCompile Include="..\..\..\src\ClpPrimalColumnPivot.cpp" />
     <ClCompile Include="..\..\..\src\ClpPrimalColumnSteepest.cpp" />
@@ -246,6 +248,7 @@
     <ClInclude Include="..\..\..\src\ClpDynamicExampleMatrix.hpp" />
     <ClInclude Include="..\..\..\src\ClpDynamicMatrix.hpp" />
     <ClInclude Include="..\..\..\src\ClpEventHandler.hpp" />
+    <ClInclude Include="..\..\..\src\ClpAbortHandler.hpp" />
     <ClInclude Include="..\..\..\src\ClpFactorization.hpp" />
     <ClInclude Include="..\..\..\src\ClpGubDynamicMatrix.hpp" />
     <ClInclude Include="..\..\..\src\ClpGubMatrix.hpp" />
@@ -262,6 +265,7 @@
     <ClInclude Include="..\..\..\src\ClpNode.hpp" />
     <ClInclude Include="..\..\..\src\ClpNonLinearCost.hpp" />
     <ClInclude Include="..\..\..\src\ClpObjective.hpp" />
+    <ClInclude Include="..\..\..\src\ClpOutput.hpp" />
     <ClInclude Include="..\..\..\src\ClpPackedMatrix.hpp" />
     <ClInclude Include="..\..\..\src\ClpParam.hpp" />
     <ClInclude Include="..\..\..\src\ClpParameters.hpp" />
@@ -271,6 +275,7 @@
     <ClInclude Include="..\..\..\src\ClpPlusMinusOneMatrix.hpp" />
     <ClInclude Include="..\..\..\src\ClpPredictorCorrector.hpp" />
     <ClInclude Include="..\..\..\src\ClpPresolve.hpp" />
+    <ClInclude Include="..\..\..\src\ClpRacingSolver.hpp" />
     <ClInclude Include="..\..\..\src\ClpPrimalColumnDantzig.hpp" />
     <ClInclude Include="..\..\..\src\ClpPrimalColumnPivot.hpp" />
     <ClInclude Include="..\..\..\src\ClpPrimalColumnSteepest.hpp" />

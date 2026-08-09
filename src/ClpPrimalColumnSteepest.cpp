@@ -3203,11 +3203,15 @@ void ClpPrimalColumnSteepest::saveWeights(ClpSimplex *model, int mode)
           CoinMemcpyN(pivotVariable,
             numberRows, alternateWeights_->getIndices());
 #endif
-          // change from pivot row number to sequence number
-          pivotSequence_ = pivotVariable[pivotSequence_];
+          // pivotSequence_ stays as row index; all consumers (justSteepest,
+          // justDevex, etc.) use it as a row index, not a sequence number.
         } else {
           pivotSequence_ = -1;
         }
+        // indices_ now holds pivot variable sequence numbers (not sparse element
+        // indices), so nElements_ must be 0.  mode=2 reads indices_ directly and
+        // does not rely on nElements_, so this is safe.
+        alternateWeights_->setNumElements(0);
         state_ = 1;
       } else {
         // size has changed - clear everything

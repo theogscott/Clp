@@ -51,6 +51,7 @@ ClpSimplex::ClpSimplex(bool emptyMessages)
   , rowPrimalSequence_(-2)
   , bestObjectiveValue_(-COIN_DBL_MAX)
   , moreSpecialOptions_(2)
+  , blasNumThreads_(-1)
   , baseIteration_(0)
   , vectorMode_(0)
   , primalToleranceToGetOptimal_(-1.0)
@@ -174,6 +175,7 @@ ClpSimplex::ClpSimplex(const ClpModel *rhs,
   , rowPrimalSequence_(-2)
   , bestObjectiveValue_(-COIN_DBL_MAX)
   , moreSpecialOptions_(2)
+  , blasNumThreads_(-1)
   , baseIteration_(0)
   , vectorMode_(0)
   , primalToleranceToGetOptimal_(-1.0)
@@ -334,6 +336,7 @@ ClpSimplex::ClpSimplex(const ClpSimplex *rhs,
   , rowPrimalSequence_(-2)
   , bestObjectiveValue_(-COIN_DBL_MAX)
   , moreSpecialOptions_(2)
+  , blasNumThreads_(-1)
   , baseIteration_(0)
   , vectorMode_(rhs->vectorMode_)
   , primalToleranceToGetOptimal_(-1.0)
@@ -496,8 +499,13 @@ ClpSimplex::ClpSimplex(const ClpSimplex *rhs,
     perturbationArray_ = new double[maximumPerturbationSize_];
     for (i = 0; i < numberColumns; i++) {
       int iColumn = whichColumn[i];
-      perturbationArray_[2 * i] = rhs->perturbationArray_[2 * iColumn];
-      perturbationArray_[2 * i + 1] = rhs->perturbationArray_[2 * iColumn + 1];
+      if (2 * iColumn + 1 < rhs->maximumPerturbationSize_) {
+        perturbationArray_[2 * i] = rhs->perturbationArray_[2 * iColumn];
+        perturbationArray_[2 * i + 1] = rhs->perturbationArray_[2 * iColumn + 1];
+      } else {
+        perturbationArray_[2 * i] = 0.0;
+        perturbationArray_[2 * i + 1] = 0.0;
+      }
     }
   }
 }
@@ -2020,6 +2028,11 @@ int ClpSimplex::internalFactorize(int solveType)
     printf("Basis singular - pivot tolerance %g\n",
       factorization_->pivotTolerance());
 #endif
+    // better to re-initialize weights
+    if (dynamic_cast<ClpDualRowSteepest *>(dualRowPivot_))
+	dynamic_cast<ClpDualRowSteepest *>(dualRowPivot_)->setState(-1);
+    if (dynamic_cast<ClpPrimalColumnSteepest *>(primalColumnPivot_))
+	dynamic_cast<ClpPrimalColumnSteepest *>(primalColumnPivot_)->setState(-1);
     return -1;
   } else if (!solveType) {
     // Initial basis - return number of singularities
@@ -2483,6 +2496,7 @@ ClpSimplex::ClpSimplex(const ClpSimplex &rhs, int scalingMode)
   , rowPrimalSequence_(-2)
   , bestObjectiveValue_(rhs.bestObjectiveValue_)
   , moreSpecialOptions_(2)
+  , blasNumThreads_(-1)
   , baseIteration_(0)
   , vectorMode_(rhs.vectorMode_)
   , primalToleranceToGetOptimal_(-1.0)
@@ -2592,6 +2606,7 @@ ClpSimplex::ClpSimplex(const ClpModel &rhs, int scalingMode)
   , rowPrimalSequence_(-2)
   , bestObjectiveValue_(-COIN_DBL_MAX)
   , moreSpecialOptions_(2)
+  , blasNumThreads_(-1)
   , baseIteration_(0)
   , vectorMode_(0)
   , primalToleranceToGetOptimal_(-1.0)
@@ -2719,6 +2734,7 @@ void ClpSimplex::gutsOfCopy(const ClpSimplex &rhs)
   dontFactorizePivots_ = rhs.dontFactorizePivots_;
   int numberRows2 = numberRows_ + numberExtraRows_;
   moreSpecialOptions_ = rhs.moreSpecialOptions_;
+  blasNumThreads_ = rhs.blasNumThreads_;
   if ((whatsChanged_ & 1) != 0) {
     int numberTotal = numberColumns_ + numberRows2;
     if ((specialOptions_ & 65536) != 0 && maximumRows_ >= 0) {
@@ -4256,6 +4272,17 @@ bool ClpSimplex::createRim(int what, bool makeRowCopy, int startFinishOptions)
   }
   // we need to treat matrix as if each element by rowScaleIn and columnScaleout??
   // maybe we need to move scales to SimplexModel for factorization?
+  // Safety: if rows were added since the last factorization, pivotVariable_ is
+  // too small for the current row count.  Force reallocation so all subsequent
+  // loops (which run up to numberRows2) stay in bounds.
+  if (what == 63 && pivotVariable_ && factorization_
+    && factorization_->numberRows() < numberRows2) {
+    delete[] pivotVariable_;
+    pivotVariable_ = new int[numberRows2 + 1];
+    for (int i = 0; i < numberRows2 + 1; i++)
+      pivotVariable_[i] = -1;
+    keepPivots = false;
+  }
   if ((what == 63 && !pivotVariable_) || (newArrays && !keepPivots)) {
     delete[] pivotVariable_;
     pivotVariable_ = new int[numberRows2 + 1];
@@ -6026,7 +6053,9 @@ int ClpSimplex::dualDebug(int ifValuesPass, int startFinishOptions)
         secondaryStatus_ = 4;
     }
     // May be perturbed
-    if (startFinishOptions==7&&(perturbation_ == 101 || numberChanged_)) {
+    // cost_ can be NULL if problem was trivially solved (empty matrix) without
+    // going through createRim, in which case there is nothing to un-perturb.
+    if (startFinishOptions==7 && cost_ && (perturbation_ == 101 || numberChanged_)) {
       numberChanged_ = 0; // Number of variables with changed costs
       perturbation_ = 102; // stop any perturbations
       //double changeCost;
@@ -6053,6 +6082,63 @@ int ClpSimplex::dualDebug(int ifValuesPass, int startFinishOptions)
   }
   // clear serious error flags
   moreSpecialOptions_ &= ~(1073741824|536870912);
+#if 0
+  if (!problemStatus_&&(specialOptions_&0x01000000)!=0) {
+    // think hard
+    // may need to know about depth - if fathoming - success rate
+    // see if any integer variables are infeasible with no iterations
+    if (maximumIterations()==8121943&&integerType_) {
+      int * which = new int [3*numberRows_];
+      double * valueIncrease = new double[2*numberRows_];
+      int numberCheck = 0;
+      for (int i=0;i<numberRows_;i++) {
+	int iSeq = pivotVariable_[i];
+	// for now just 1 gap
+	if (iSeq<numberColumns_&&integerType_[iSeq] && columnUpper_[iSeq]==columnLower_[iSeq]+1.0) {
+	  double value = columnActivity_[iSeq];
+	  if (fabs(value-floor(value+0.5))>primalTolerance_) {
+	    which[numberCheck++] = iSeq;
+	  }
+	}
+      }
+      int *sequenceIncrease = which+numberCheck;
+      int *sequenceDecrease = sequenceIncrease+numberCheck;
+      double *valueDecrease = valueIncrease+numberCheck;
+      primalRanging(numberCheck,which,valueIncrease,sequenceIncrease,
+		    valueDecrease,sequenceDecrease);
+      double limit = 0.0;
+      getDblParam(ClpDualObjectiveLimit, limit);
+      double gap = limit-objectiveValue()+1.0e-3;
+      gap = std::min(gap,1.0e30);
+      int nFixed = 0;
+      for (int i=0;i<numberCheck;i++) {
+	int fix = 0;
+	if (valueIncrease[i]>gap)
+	  fix = 1;
+	if (valueDecrease[i]>gap)
+	  fix |= 2;
+	if (fix) {
+	  printf("fix %d for %d\n",fix,which[i]);
+	  nFixed++;
+	  int iSeq = which[i];
+	  // fix here - does that stay fixed
+	  if (fix==1) {
+	    columnUpper_[iSeq] = columnUpper_[iSeq]-1.0;
+	  } else if (fix==2) {
+	    columnLower_[iSeq] = columnLower_[iSeq]+1.0;
+	  } else {
+	    printf("problem infeasible?????\n");
+	    nFixed = 8121943;
+	    break;
+	  }
+	}
+      }
+      setMaximumIterations(8121943-nFixed);
+      delete [] which;
+      delete [] valueIncrease;
+    }
+  }
+#endif
   return returnCode;
 }
 // primal
@@ -12458,10 +12544,24 @@ int ClpSimplex::fathomMany(void *stuff)
     }
     status = problemStatus_;
   }
-  assert(problemStatus_ == 0 || problemStatus_ == 1); //(static_cast<ClpSimplexDual *> this)->dual(0,0);
-  if (problemStatus_ == 10) {
-    printf("Cleaning up with primal - need coding without createRim!\n");
-    abort();
+  if (problemStatus_ == 3) {
+    // fastDual2 hit an iteration/time limit on the root LP - cannot fathom this subtree
+    stopFastDual2(info);
+    info->nNodes_ = 0;
+    info->numberNodesExplored_ = 0;
+    info->numberIterations_ = numberIterations_;
+    return -1;
+  }
+  if (problemStatus_ != 0 && problemStatus_ != 1) {
+    // unexpected status (e.g. numerical difficulties, status 4, -1, etc.) - cannot fathom
+#ifdef COIN_DEVELOP
+    printf("bad status %d on initial fast dual in fathomMany\n", problemStatus_);
+#endif
+    stopFastDual2(info);
+    info->nNodes_ = 0;
+    info->numberNodesExplored_ = 0;
+    info->numberIterations_ = numberIterations_;
+    return -1;
   }
   int numberNodes = 0;
   int numberIterations = numberIterations_;
@@ -12722,6 +12822,12 @@ int ClpSimplex::fathomMany(void *stuff)
         }
       }
 #endif
+      // Track whether the solution was already saved into nodeInfo[goodNodes]
+      // (Path B). In that case we must NOT call gutsOfConstructor a second
+      // time after doubleCheck(), because doubleCheck() re-solves the LP and
+      // the updated column solution may have marginally fractional integer
+      // values, causing the assert below to fire.
+      bool savedToGoodNodesSlot = false;
       if (depth < info->nDepth_ && !stopAtOnce) {
         node = nodeInfo[useDepth];
         if (node) {
@@ -12740,6 +12846,7 @@ int ClpSimplex::fathomMany(void *stuff)
         if (!node->oddArraysExist())
           node->createArrays(this);
         node->gutsOfConstructor(this, info, 2, depth);
+        savedToGoodNodesSlot = true;
       }
       if (node->sequence() < 0) {
         // solution
@@ -12770,7 +12877,11 @@ int ClpSimplex::fathomMany(void *stuff)
             if (!node->oddArraysExist())
               node->createArrays(info->large_);
             node->gutsOfConstructor(info->large_, info, 2, depth);
-          } else {
+          } else if (!savedToGoodNodesSlot) {
+            // Path A: need to copy the integer solution into the goodNodes slot.
+            // Skip when savedToGoodNodesSlot (Path B): the node was already
+            // saved before doubleCheck(), and re-saving after doubleCheck()
+            // may produce sequence()>=0 due to the LP state having changed.
             if (!node->oddArraysExist())
               node->createArrays(this);
             node->gutsOfConstructor(this, info, 2, depth);
