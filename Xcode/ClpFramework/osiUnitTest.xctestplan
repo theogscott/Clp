@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "4D165550-4B22-406B-8ED0-BB256B890CA1",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:..\/..\/..\/..\/..\/..\/..\/Library\/Developer\/Xcode\/DerivedData\/ClpFramework-choiuzqxlidtmuahjbswzwvbftwn\/SourcePackages\/checkouts\/Clp",
+      "identifier" : "osiUnitTest",
+      "name" : "osiUnitTest"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ClpFramework.xcodeproj",
+        "identifier" : "9B07541B2F61AB08007EFE99",
+        "name" : "ClpFrameworkTests"
+      }
+    }
+  ],
+  "version" : 1
+}

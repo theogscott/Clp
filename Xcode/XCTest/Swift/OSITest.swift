@@ -8,6 +8,8 @@ import DataNetlib // gives us DataNetlibResources.bundle
 import DataSample //gives us DataSampleResources
 import DataMiplib3
 
+@testable import ClpFramework
+
 
 final class OSITest: XCTestCase {
 

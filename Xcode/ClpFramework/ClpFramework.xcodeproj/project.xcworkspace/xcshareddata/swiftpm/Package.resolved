@@ -1,0 +1,60 @@
+{
+  "originHash" : "ac82f76ed6d597d98094eb0ad92528d1537a7a9e4fc8657bf9830a0b437b23a5",
+  "pins" : [
+    {
+      "identity" : "clp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/Clp",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "f040094d1ccc6ccb14e9febc0f11f7cdf34fc805"
+      }
+    },
+    {
+      "identity" : "coinutils",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/CoinUtils",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "0ad234b9079d261670f9e09fd5d9f40b299f577f"
+      }
+    },
+    {
+      "identity" : "data-miplib3",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/Data-miplib3",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "6becdd12378e09e06afed2219b86d42a8cec2a22"
+      }
+    },
+    {
+      "identity" : "data-netlib",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/Data-NetLib",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "285118f0266bff0773814250a16f0486174e0fe5"
+      }
+    },
+    {
+      "identity" : "data-sample",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/Data-Sample",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "602336d338012455c1343d69c864fc715972f4ab"
+      }
+    },
+    {
+      "identity" : "osi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/theogscott/Osi",
+      "state" : {
+        "branch" : "SPM",
+        "revision" : "1146bb871207e95e3ad5f325163d4e1a64f96def"
+      }
+    }
+  ],
+  "version" : 3
+}
